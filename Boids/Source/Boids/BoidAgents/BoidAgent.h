@@ -15,7 +15,11 @@ class BOIDS_API ABoidAgent : public AActor
 public:
 	// Sets default values for this actor's properties
 	ABoidAgent();
-	void Move(FVector newVelocity, float DeltaTime);
+	void Move(float DeltaTime);
+
+	FVector getVelocity() const;
+	FVector getAcceleration() const;
+	void setAcceleration(const FVector acceleration);
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,5 +30,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	FVector velocity;
+	FVector boidVelocity;
+	FVector boidAcceleration;
 };

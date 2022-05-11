@@ -5,6 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BoidAgent.h"
+#include "../Behaviours/AlignmentBehaviour.h"
+#include "../Behaviours/SeparationBehaviour.h"
+#include "../Behaviours/CohesionBehaviour.h"
+#include <vector>
+#include <cmath>
 
 #include "Flock.generated.h"
 
@@ -20,6 +25,30 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private:
+	void GetBoidsInView(const ABoidAgent& boid, std::vector<ABoidAgent*>& boidsInView) {
+		boidsInView.reserve(static_cast<size_t>(std::round(agents.Num() * 0.8)));
+
+		for (auto& neighbour : agents) {
+			if (&*neighbour == &boid) {
+				continue;
+			}
+
+			FVector relativeVec = boid.GetActorTransform().GetLocation() - neighbour->GetActorTransform().GetLocation();
+
+			if (std::abs(relativeVec.X) > 300
+				|| std::abs(relativeVec.Y) > 300)
+			{
+				continue;
+			}
+
+			if (relativeVec.SizeSquared() < 300)
+			{
+				boidsInView.emplace_back(neighbour);
+			}
+		}
+	};
 
 public:
 	// Called every frame
@@ -57,8 +86,12 @@ private:
 
 	TArray<ABoidAgent*> agents;
 
-	float squareNeighbourAvoidanceRadius = 0;
-	float squareObstacleAvoidanceRadius = 0;
+	AlignmentBehaviour alignBehav;
+	SeparationBehaviour sepBehav;
+	CohesionBehaviour cohBehav;
+
+	float squareNeighbourAvoidanceRadius;
+	float squareObstacleAvoidanceRadius;
 
 	float squareMaxSpeed;
 	float squareNeighbourRadius;
