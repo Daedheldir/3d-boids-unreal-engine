@@ -17,12 +17,12 @@ FVector AlignmentBehaviour::operator()(const ABoidAgent& currentBoid, const std:
 	FVector alignmentMove(0, 0, 0);
 
 	if (boidsInView.size() <= 0) {
-		alignmentMove = currentBoid.getAcceleration();
+		alignmentMove = currentBoid.getVelocity();
 		return alignmentMove;
 	}
 
 	for (auto& heading : boidsInView) {
-		alignmentMove += heading->getAcceleration();
+		alignmentMove += heading->getVelocity();
 	}
 
 	alignmentMove *= 1.0f / boidsInView.size();

@@ -3,15 +3,12 @@
 #include "BoidAgent.h"
 
 // Sets default values
-ABoidAgent::ABoidAgent()
+ABoidAgent::ABoidAgent() :
+	boidAcceleration(FMath::RandRange(-10.0f, 10.0f), FMath::RandRange(-10.0f, 10.0f), FMath::RandRange(-10.0f, 10.0f)),
+	boidVelocity(FMath::RandRange(-10.0f, 10.0f), FMath::RandRange(-10.0f, 10.0f), FMath::RandRange(-10.0f, 10.0f))
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	boidAcceleration = FVector(
-		FMath::RandRange(-10.0f, 10.0f),
-		FMath::RandRange(-10.0f, 10.0f),
-		FMath::RandRange(-10.0f, 10.0f)
-	);
 }
 
 // Called when the game starts or when spawned

@@ -37,13 +37,13 @@ private:
 
 			FVector relativeVec = boid.GetActorTransform().GetLocation() - neighbour->GetActorTransform().GetLocation();
 
-			if (std::abs(relativeVec.X) > 300
-				|| std::abs(relativeVec.Y) > 300)
+			if (std::abs(relativeVec.X) > 2000
+				|| std::abs(relativeVec.Y) > 2000)
 			{
 				continue;
 			}
 
-			if (relativeVec.SizeSquared() < 300)
+			if (relativeVec.SizeSquared() < 2000 * 2000)
 			{
 				boidsInView.emplace_back(neighbour);
 			}
